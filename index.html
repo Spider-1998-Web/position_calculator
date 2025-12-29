@@ -1,30 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Spot Trading Position Calculator</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Advanced Trading Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <h2>Spot Position Calculator</h2>
+  <div class="container">
+    <h2><i class="fas fa-calculator"></i> Trading Position Calculator</h2>
 
-    <label>Account Size ($)</label>
-    <input id="account" type="number" value="10">
+    <div class="input-group">
+      <div class="input-row">
+        <label for="accountSize">Account Size ($)</label>
+        <div class="input-with-icon">
+          <i class="fas fa-wallet"></i>
+          <input type="number" id="accountSize" value="10" min="1" step="0.01" />
+        </div>
+      </div>
 
-    <label>Entry Price</label>
-    <input id="entry" type="number" value="124">
+      <div class="input-row">
+        <label for="entryPrice">Entry Price ($)</label>
+        <div class="input-with-icon">
+          <i class="fas fa-arrow-right"></i>
+          <input type="number" id="entryPrice" placeholder="e.g. 124" min="0.01" step="0.01" />
+        </div>
+      </div>
 
-    <label>Risk %</label>
-    <input id="risk" type="number" value="2">
+      <div class="risk-reward-row">
+        <div class="rr-item">
+          <label for="riskPercent">Risk (%)</label>
+          <div class="input-with-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+            <input type="number" id="riskPercent" value="1" min="0.1" max="100" step="0.1" />
+          </div>
+        </div>
+        <div class="rr-item">
+          <label for="rewardPercent">Reward (%)</label>
+          <div class="input-with-icon">
+            <i class="fas fa-trophy"></i>
+            <input type="number" id="rewardPercent" value="2" min="0.1" max="1000" step="0.1" />
+          </div>
+        </div>
+      </div>
 
-    <label>Risk Reward (RR)</label>
-    <input id="rr" type="number" value="2">
+      <div class="input-row">
+        <label for="stopLossPrice">Stop Loss Price ($) <small>(optional)</small></label>
+        <div class="input-with-icon">
+          <i class="fas fa-arrow-down"></i>
+          <input type="number" id="stopLossPrice" placeholder="Auto-calculated" min="0" step="0.01" />
+        </div>
+      </div>
 
-    <button onclick="calculate()">Calculate</button>
+      <div class="input-row">
+        <label for="takeProfitPrice">Take Profit Price ($) <small>(optional)</small></label>
+        <div class="input-with-icon">
+          <i class="fas fa-arrow-up"></i>
+          <input type="number" id="takeProfitPrice" placeholder="Auto-calculated" min="0" step="0.01" />
+        </div>
+      </div>
 
-    <div class="result" id="output"></div>
+      <button class="calculate-btn" onclick="calculate()">
+        <i class="fas fa-calculator"></i> Calculate Position
+      </button>
 
-    <script src="script.js"></script>
+      <div class="results">
+        <h3><i class="fas fa-chart-line"></i> Results</h3>
+        
+        <div class="result-row">
+          <div class="result-label">
+            <i class="fas fa-arrow-up" style="color: #4CAF50;"></i>
+            <span>Take Profit</span>
+          </div>
+          <div class="output-with-btn">
+            <input type="text" id="takeProfit" readonly />
+            <button class="copy-btn" onclick="copyValue('takeProfit')" title="Copy to clipboard">
+              <i class="far fa-copy"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="result-row">
+          <div class="result-label">
+            <i class="fas fa-arrow-down" style="color: #F44336;"></i>
+            <span>Stop Loss</span>
+          </div>
+          <div class="output-with-btn">
+            <input type="text" id="stopLoss" readonly />
+            <button class="copy-btn" onclick="copyValue('stopLoss')" title="Copy to clipboard">
+              <i class="far fa-copy"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="result-row">
+          <div class="result-label">
+            <i class="fas fa-coins" style="color: #FFC107;"></i>
+            <span>Position Size</span>
+          </div>
+          <input type="text" id="positionSize" readonly />
+        </div>
+
+        <div class="profit-loss-row">
+          <div class="pl-item profit">
+            <div class="pl-label">
+              <i class="fas fa-plus-circle"></i>
+              <span>Estimated Profit</span>
+            </div>
+            <div class="pl-value" id="estimatedProfit">$0.00</div>
+          </div>
+          <div class="pl-item loss">
+            <div class="pl-label">
+              <i class="fas fa-minus-circle"></i>
+              <span>Estimated Loss</span>
+            </div>
+            <div class="pl-value" id="estimatedLoss">$0.00</div>
+          </div>
+        </div>
+
+        <div class="result-row">
+          <div class="result-label">
+            <i class="fas fa-balance-scale"></i>
+            <span>Risk/Reward Ratio</span>
+          </div>
+          <input type="text" id="riskRewardRatio" readonly />
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="rr-display">
+        <span class="rr-label">R:R Ratio:</span>
+        <span class="rr-value" id="rrDisplay">1:2</span>
+      </div>
+      <button class="reset-btn" onclick="resetCalculator()">
+        <i class="fas fa-redo"></i> Reset
+      </button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
